@@ -1,201 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-
-    <title>Home</title>
-
-    <link rel="stylesheet" href="/style.css">
-    <script src="css/script.js" defer></script>
-    <script type="text/javascript" src="lib/p5.particle.js"></script>
-  </head>
-
-  <body>
-    <div class="myDiv">
-      <h1><center>Techincal Excercise 7 & project 2 Prep</center></h1>
-    </div>
-    <center><h2>Create.js example</h2></center>
-    <center>From the create.js library, I want to play around with the image gallery from the preload feature.</center>
-
-    <div><canvas id="myCanvas" width="960" height="400"></canvas></div>
-
-    <script src="libs/easeljs-NEXT.min.js"></script>
-    <script src="libs/tweenjs-NEXT.min.js"></script>
-
-    <script type="text/javascript" src="lib/preloadjs-NEXT.js"></script>
-    <!-- We also provide hosted minified versions of all CreateJS libraries.
-    	 http://code.createjs.com -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-
-    <script type="text/javascript" id="editable">
-    var loaderBar;
-    var stage;
-    var bar;
-    var imageContainer;
-    var currentImage;
-    var loaderWidth;
-    var loaderColor;
-    var borderPadding;
-    var preload;
-    var oldItem;
-
-    function init() {
-    	canvas = document.getElementById("myCanvas");
-    	stage = new createjs.Stage(canvas);
-    	stage.enableMouseOver(10);
-
-    	borderPadding = 10;
-
-    	var barHeight = 20;
-    	loaderColor = createjs.Graphics.getRGB(247, 247, 247);
-    	loaderBar = new createjs.Container();
-
-    	bar = new createjs.Shape();
-    	bar.graphics.beginFill(loaderColor).drawRect(0, 0, 1, barHeight).endFill();
-
-    	imageContainer = new createjs.Container();
-    	imageContainer.x = 430;
-    	imageContainer.y = 200;
-
-    	loaderWidth = 300;
-    	stage.addChild(imageContainer);
-
-    	var bgBar = new createjs.Shape();
-    	var padding = 3
-    	bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding / 2, -padding / 2, loaderWidth + padding, barHeight + padding);
-
-    	loaderBar.x = canvas.width - loaderWidth >> 1;
-    	loaderBar.y = canvas.height - barHeight >> 1;
-    	loaderBar.addChild(bar, bgBar);
-
-    	stage.addChild(loaderBar);
-
-    	manifest = [
-    		{src: "https://cdn.glitch.com/ad98aaf7-8308-4bab-8233-8be5b1f2fbc8%2Fwallpaper4.png?v=1616380658956"},
-    		{src: "https://cdn.glitch.com/ad98aaf7-8308-4bab-8233-8be5b1f2fbc8%2Fwallpaper3.png?v=1616380664696"},
-    	];
-
-    	preload = new createjs.LoadQueue(true, "test/");
-
-    	// Use this instead to use tag loading
-    	//preload = new createjs.LoadQueue(false);
-
-    	preload.on("progress", handleProgress);
-    	preload.on("complete", handleComplete);
-    	preload.on("fileload", handleFileLoad);
-    	preload.loadManifest(manifest, true);
-
-    	createjs.Ticker.framerate = 30;
-    }
-
-    function stop() {
-    	if (preload != null) {
-    		preload.close();
-    	}
-    }
-
-    function handleProgress(event) {
-    	bar.scaleX = event.loaded * loaderWidth;
-    }
-
-    function handleFileLoad(event) {
-    	var image = event.result;
-    	var w = image.width;
-    	var h = image.height;
-
-    	var bmp = new createjs.Bitmap(image).set({
-    		 scaleX: 0.15, scaleY: 0.15,
-    		 regX: w / 2, regY: h / 2,
-    		 rotation: Math.random() * 16 - 8,
-    		 cursor: "pointer",
-    		 x: borderPadding / 2 * 0.75, y: borderPadding / 2 * 0.7
-    	});
-    	bmp.on("click", handleClick);
-
-    	var border = new createjs.Shape(
-    			new createjs.Graphics().beginFill("#FFFFFF").drawRect(0, 0, w + borderPadding, h + borderPadding).endFill()
-    	).set({
-    		rotation: bmp.rotation,
-    		regX: w / 2,
-    		regY: h / 2,
-    		scaleX: bmp.scaleX,
-    		scaleY: bmp.scaleY,
-    		shadow: new createjs.Shadow("#000000", 0, 0, 2.5)
-    	});
-
-    	var container = new createjs.Container();
-    	container.addChild(border, bmp);
-    	imageContainer.addChild(container);
-    	stage.update();
-    }
-
-    function handleClick(event) {
-    	currentItem = event.target.parent;
-    	createjs.Tween.get(currentItem, {override: true})
-    			.to({y: -300, rotation:currentItem.rotation+Math.random()*30-15}, 200, createjs.Ease.quadInOut)
-    			.call(tweenUpComplete)
-    			.to({y: 0, rotation:currentItem.rotation}, 600, createjs.Ease.quadOut)
-    			.on("change", handleTweenChange);
-    }
-
-    function handleTweenChange(tween) {
-    	stage.update();
-    }
-
-    function tweenUpComplete(event) {
-    	imageContainer.addChildAt(currentItem, 0);
-    }
-
-    function handleComplete(event) {
-    	loaderBar.visible = false;
-    	stage.update();
-    }
-
-    </script>
-
-    <center><h2>p5.particle example</h2></center>
-    <center>From the p5.js library, the one that cought my eye was the particle feature. </center>
-
-    <script>
-
-    var defs;
-var of;
-
-function setup() {
-    createCanvas(400, 400);
-    var t =
-        '{   ' +
-        '    "parts": [   ' +
-        '    {   ' +
-        '    "name": "foo",   ' +
-        '    "color":   ' +
-        '     ["orange",[255,0,0],"yellow","white","white"],   ' +
-        '    "shape": "rect",   ' +
-        '    "gravity": 0.1,   ' +
-        '    "sizePercent": 0.99,   ' +
-        '    "angle": [190,300],   ' +
-        '    "speed": 5.5,   ' +
-        '    "limit": 250,   ' +
-        '    "lifetime": 200,   ' +
-        '    "size": [4,12],   ' +
-        '    "x": 0.5,   ' +
-        '    "y": 0.5}]}';
-    defs = JSON.parse(t);
-    of = new Fountain(defs, 'foo');
-}
-
-function draw() {
-  background(51);
-  of.Draw();
-  of.Create();
-  of.Step();
-  noStroke();
-  text(of.length, width/2, 20);
-  stroke(0);
-}
-
-
-    </script>
-  </body>
+<head>
+  <script src="lib/p5.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  <script src="sketch.js"></script>
+</head>
+<body>
+  <br>
+  <h1>Exquisite Corpse Prompt Generator</h1>
+  <div id="sketch-holder">
+  </div>
+  <br><br>
+  <div id="button-holder">
+  </div>
+  <br>
+  <div id="test">
+    <p>More information about the Exquisite Corpse concept can be found <a href="https://www.artsy.net/article/artsy-editorial-explaining-exquisite-corpse-surrealist-drawing-game-die">HERE</a>.</p>
+  </div>
+</body>
 </html>

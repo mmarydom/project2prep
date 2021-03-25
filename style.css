@@ -1,32 +1,67 @@
-/* CSS files add styling rules to your content */
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
-body {
-  font-family: helvetica, arial, sans-serif;
-  margin: 2em;
-  color: #6395ff;
-  background-color: #cdffb8;
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  font-family: 'Lato', sans-serif;
 }
 
 h1 {
-  font-style: italic;
-  color: #ff4da0;
-}
-
-h2 {
-  font-style: none;
-  color: #ffb24d;
-}
-
-button{
-  color: #ff4da0;
-}
-
-.myDiv {
-  border: 5px outset #ff4da0;
-  background-color: white;
   text-align: center;
+  padding: 20px;
+  color: white;
 }
 
-a{
-  color: #ff4da0;
+p {
+  text-align: center;
+  color: white;
+}
+
+canvas {
+  margin: auto;
+  display: block;
+  border-style: dotted;
+  border-color: white;
+  border-radius: 50%;
+  font-family: 'Lato', sans-serif;
+}
+
+button {
+  margin: auto;
+  display: block;
+  padding: 10px;
+  color: white;
+  background-color: black;  
+  border-style: dotted;
+  border-color: white;
+  border-radius: 50%;
+  font-family: 'Lato', sans-serif;
+  width: 100px;
+  height: 100px;
+  outline: none;
+}
+
+button:active {
+  background-color: white;
+  color: black;
+}
+
+a:link {
+  color: cyan;
+}
+
+/* visited link */
+a:visited {
+  color: lightgrey;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: hotpink;
 }
